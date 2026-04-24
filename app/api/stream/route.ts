@@ -10,6 +10,14 @@ export async function POST(req: Request) {
       model: groq("llama-3.1-8b-instant"),
       prompt,
     });
+
+    result.usage.then((usage) => {
+      console.log({
+        inputTokens: usage.inputTokens,
+        outputTokens: usage.outputTokens,
+        totalTokens: usage.totalTokens,
+      });
+    });
     return result.toUIMessageStreamResponse();
   } catch (error) {
     console.log(error);

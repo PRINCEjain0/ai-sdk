@@ -12,7 +12,8 @@ export default function StreamText(){
         handleSubmit,
         error,
         isLoading,
-        stop
+        stop,
+        setInput
     } = useCompletion({api :"/api/stream"})
     return <>
     
@@ -22,14 +23,21 @@ export default function StreamText(){
         {isLoading && <div>loading....</div>}
         {error && <div>{error.message}</div>}
 
-        <form onSubmit = {handleSubmit}>
+        <form onSubmit ={(e) => {
+            e.preventDefault()
+            setInput("");
+
+            handleSubmit(e)
+            
+        }}>
             <input
             placeholder="ask me anything"
             value = {input}
             onChange={handleInputChange}
             />
            
-            {isLoading ? (
+            <div className="fixed bottom-0">
+                {isLoading ? (
             <button
             type="button"
               onClick={stop}
@@ -45,7 +53,9 @@ export default function StreamText(){
             >
               Send
             </button>
+          
           )}
+            </div>
         </form>
     </div>
     </>
